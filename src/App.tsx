@@ -13,6 +13,7 @@ import {
 import { Flex } from '@chakra-ui/react';
 import { FundGraphGenerator } from './components/FundGraph/FundGraphGenerator';
 import { SimulationLinkDatum } from 'd3';
+import { FundGraph } from './components/FundGraph/FundGraph';
 
 export const appendToAttributeFrequency = (newGraphNode: FundNodeInterface, attributeFrequency: AttributeFrequencyInterface) => {
   if (newGraphNode.fund) {
@@ -132,7 +133,7 @@ function App() {
 
   const data = {
     nodes: [
-      { id: '0', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
+      { id: '0', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: false } },
       { id: '1', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
       { id: '2', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
       { id: '0_ROOT', type: 'GROUP_ROOT', groupRootAttribute: 'manager', groupRootText: '' },
@@ -149,7 +150,8 @@ function App() {
     <Flex className='App' width='100vw' height='100vh' backgroundImage='linear-gradient(rgb(11, 21, 64), rgb(35, 5, 38))'>
       {/* <FundOptionsWindow addFund={addFund} updateConnectedTypes={updateSelectedConnectionTypes} defaultConnectedTypes={selectedConnectionTypes.current} /> */}
       {/* <FundGraphGenerator graphElements={graphElements} /> */}
-      <FundGraphGenerator graphElements={data} />;
+      {/* <FundGraphGenerator graphElements={data} />; */}
+      <FundGraph graphElements={data} />
     </Flex>
   );
 }
