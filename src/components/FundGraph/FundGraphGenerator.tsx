@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { FundNodeInterface, GraphElements, GroupRootNodeInterface } from '../../App.interface';
 import { D3DragEvent, SimulationLinkDatum } from 'd3';
 
-type CardSVG = d3.Selection<d3.BaseType, FundNodeInterface, d3.BaseType, unknown>;
+type CardSVG = d3.Selection<SVGSVGElement, FundNodeInterface, d3.BaseType, unknown>;
 
 type Simulation = d3.Simulation<FundNodeInterface, SimulationLinkDatum<FundNodeInterface>>;
 
@@ -124,14 +124,14 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
         .data(nodes)
         .join(
           (enter) => {
-            const cardSVG = enter.append('svg').attr('width', width).attr('height', height) as unknown as CardSVG;
+            const cardSVG = enter.append('svg').attr('width', width).attr('height', height);
             generateCard(cardSVG);
             return cardSVG;
           },
-          (update: CardSVG) => {
+          (update) => {
             // Redraw the card
             update.html('');
-            generateCard(update);
+            generateCard(update as unknown as CardSVG);
             return update;
           },
           (exit) => exit.remove()
