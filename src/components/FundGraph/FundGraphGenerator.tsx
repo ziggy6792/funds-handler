@@ -17,9 +17,9 @@ const generateCard = (cardElement: CardSVG) => {
     .append('rect')
     .classed('fund-label-card', true)
     .attr('fill', (d) => (d.type === 'FUND' ? '#18295e' : '#85054d'))
-    .attr('width', '180px')
-    .attr('height', '120px')
-    .attr('rx', '20px');
+    .attr('width', width)
+    .attr('height', height)
+    .attr('rx', 20);
 
   // Card Contents
   const textOffset = 20;
@@ -56,6 +56,9 @@ const generateCard = (cardElement: CardSVG) => {
 interface FundGraphGeneratorProps {
   graphElements: GraphElements;
 }
+
+const width = 280;
+const height = 120;
 
 export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphElements }) => {
   console.log('graphElements', JSON.stringify(graphElements));
@@ -121,7 +124,7 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
         .data(nodes)
         .join(
           (enter) => {
-            const cardSVG = enter.append('svg').attr('width', '180px').attr('height', '120px') as unknown as CardSVG;
+            const cardSVG = enter.append('svg').attr('width', width).attr('height', height) as unknown as CardSVG;
             generateCard(cardSVG);
             return cardSVG;
           },
@@ -142,7 +145,7 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
           .attr('x2', (d: any) => d.target.x)
           .attr('y2', (d: any) => d.target.y);
 
-        node.attr('x', (d) => (d.x ? (d.x as number) - 90 : 0)).attr('y', (d) => (d.y ? (d.y as number) - 60 : 0));
+        node.attr('x', (d) => (d.x ? (d.x as number) - width / 2 : 0)).attr('y', (d) => (d.y ? (d.y as number) - height / 2 : 0));
       });
     };
     updateGraph();
