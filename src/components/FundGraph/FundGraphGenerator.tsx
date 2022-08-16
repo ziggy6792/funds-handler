@@ -57,7 +57,7 @@ interface FundGraphGeneratorProps {
   graphElements: GraphElements;
 }
 
-const width = 280;
+const width = 200;
 const height = 120;
 
 export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphElements }) => {

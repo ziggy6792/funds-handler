@@ -142,6 +142,7 @@ function App() {
       { source: '0_ROOT', target: '0' },
       { source: '0_ROOT', target: '1' },
       { source: '0_ROOT', target: '2' },
+      { source: '0', target: '2' },
       { source: '1', target: '2' },
     ],
   } as GraphElements;
