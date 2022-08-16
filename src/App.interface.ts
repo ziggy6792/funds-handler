@@ -1,21 +1,21 @@
-import { SimulationNodeDatum } from "d3";
+import { SimulationLinkDatum, SimulationNodeDatum } from 'd3';
 
 export enum FundType {
-  VENTURE_CAPITAL = "Venture Capital",
-  REAL_ESTATE = "Real Estate",
-  HEDGE_FUND = "Hedge Fund",
+  VENTURE_CAPITAL = 'Venture Capital',
+  REAL_ESTATE = 'Real Estate',
+  HEDGE_FUND = 'Hedge Fund',
 }
 
 export enum SelectionFundAttributes {
-  MANAGER = "manager",
-  YEAR = "year",
-  TYPE = "type",
-  ISOPEN = "isOpen",
+  MANAGER = 'manager',
+  YEAR = 'year',
+  TYPE = 'type',
+  ISOPEN = 'isOpen',
 }
 
 export enum NodeType {
-  FUND = "FUND",
-  GROUP_ROOT = "GROUP_ROOT", // Group roots are what bind fund nodes together when a "Connect By" parameter is selected.
+  FUND = 'FUND',
+  GROUP_ROOT = 'GROUP_ROOT', // Group roots are what bind fund nodes together when a "Connect By" parameter is selected.
 }
 
 export interface FundInterface {
@@ -47,4 +47,9 @@ export interface SelectedConnectionTypesInterface {
 export interface AttributeFrequencyInterface {
   // String array at the end contains IDs
   [attribute: string]: { [nodeAttributeValue: string]: String[] };
+}
+
+export interface GraphElements {
+  nodes: FundNodeInterface[];
+  links: SimulationLinkDatum<FundNodeInterface>[];
 }
