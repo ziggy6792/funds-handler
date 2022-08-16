@@ -58,6 +58,8 @@ interface FundGraphGeneratorProps {
 }
 
 export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphElements }) => {
+  console.log('graphElements', JSON.stringify(graphElements));
+
   const svgRef = useRef(null);
 
   useEffect(() => {

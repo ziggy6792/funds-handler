@@ -1,5 +1,5 @@
-import React, { useRef, useState } from "react";
-import { FundOptionsWindow } from "./components/FundOptionsWindow/FundOptionsWindow";
+import React, { useRef, useState } from 'react';
+import { FundOptionsWindow } from './components/FundOptionsWindow/FundOptionsWindow';
 import {
   SelectionFundAttributes,
   FundInterface,
@@ -8,15 +8,13 @@ import {
   SelectedConnectionTypesInterface,
   AttributeFrequencyInterface,
   NodeType,
-} from "./App.interface";
-import { Flex } from "@chakra-ui/react";
-import { FundGraphGenerator } from "./components/FundGraph/FundGraphGenerator";
-import { SimulationLinkDatum } from "d3";
+  GraphElements,
+} from './App.interface';
+import { Flex } from '@chakra-ui/react';
+import { FundGraphGenerator } from './components/FundGraph/FundGraphGenerator';
+import { SimulationLinkDatum } from 'd3';
 
-export const appendToAttributeFrequency = (
-  newGraphNode: FundNodeInterface,
-  attributeFrequency: AttributeFrequencyInterface
-) => {
+export const appendToAttributeFrequency = (newGraphNode: FundNodeInterface, attributeFrequency: AttributeFrequencyInterface) => {
   if (newGraphNode.fund) {
     for (const [attribute, value] of Object.entries(newGraphNode.fund)) {
       if (attributeFrequency[attribute].hasOwnProperty(String(value))) {
@@ -47,7 +45,7 @@ export const updateGroupRootNodesAndLinks = (
           .filter((attributeElement) => attributeElement[1].length > 1)
           .forEach(([nodeAttributeValue, idArray]) => {
             // Push the relevant group root nodes!
-            const newGroupRootNodeId = groupRootId.toString(10) + "_ROOT";
+            const newGroupRootNodeId = groupRootId.toString(10) + '_ROOT';
             groupRootNodesAndLinks.groupRootNodes.push({
               id: newGroupRootNodeId,
               type: NodeType.GROUP_ROOT,
@@ -104,10 +102,7 @@ function App() {
   });
 
   const updateGraphElements = () => {
-    const updatedGroupRootNodesAndLinks = updateGroupRootNodesAndLinks(
-      attributeFrequency.current,
-      selectedConnectionTypes.current
-    );
+    const updatedGroupRootNodesAndLinks = updateGroupRootNodesAndLinks(attributeFrequency.current, selectedConnectionTypes.current);
 
     groupRootNodes.current = updatedGroupRootNodesAndLinks.groupRootNodes;
     setGraphElements({
@@ -125,35 +120,36 @@ function App() {
     };
     graphNodes.current.push(newGraphNode);
     nextGeneratedId.current += 1;
-    attributeFrequency.current = appendToAttributeFrequency(
-      newGraphNode,
-      attributeFrequency.current
-    );
+    attributeFrequency.current = appendToAttributeFrequency(newGraphNode, attributeFrequency.current);
     updateGraphElements();
   };
 
-  const updateSelectedConnectionTypes = (
-    attribute: SelectionFundAttributes,
-    newBoolValue: boolean
-  ) => {
+  const updateSelectedConnectionTypes = (attribute: SelectionFundAttributes, newBoolValue: boolean) => {
     // Changes to the selectedConnectionTypes update other state variables as well.
     selectedConnectionTypes.current[attribute] = newBoolValue;
     updateGraphElements();
   };
 
+  const data = {
+    nodes: [
+      { id: '0', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
+      { id: '1', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
+      { id: '2', type: 'FUND', fund: { name: 's', manager: '', year: '2022', type: 'Venture Capital', isOpen: true } },
+      { id: '0_ROOT', type: 'GROUP_ROOT', groupRootAttribute: 'manager', groupRootText: '' },
+    ],
+    links: [
+      { source: '0_ROOT', target: '0' },
+      { source: '0_ROOT', target: '1' },
+      { source: '0_ROOT', target: '2' },
+      { source: '1', target: '2' },
+    ],
+  } as GraphElements;
+
   return (
-    <Flex
-      className="App"
-      width="100vw"
-      height="100vh"
-      backgroundImage="linear-gradient(rgb(11, 21, 64), rgb(35, 5, 38))"
-    >
-      <FundOptionsWindow
-        addFund={addFund}
-        updateConnectedTypes={updateSelectedConnectionTypes}
-        defaultConnectedTypes={selectedConnectionTypes.current}
-      />
-      <FundGraphGenerator graphElements={graphElements} />
+    <Flex className='App' width='100vw' height='100vh' backgroundImage='linear-gradient(rgb(11, 21, 64), rgb(35, 5, 38))'>
+      {/* <FundOptionsWindow addFund={addFund} updateConnectedTypes={updateSelectedConnectionTypes} defaultConnectedTypes={selectedConnectionTypes.current} /> */}
+      {/* <FundGraphGenerator graphElements={graphElements} /> */}
+      <FundGraphGenerator graphElements={data} />;
     </Flex>
   );
 }
