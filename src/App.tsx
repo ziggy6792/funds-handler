@@ -150,8 +150,7 @@ function App() {
     <Flex className='App' width='100vw' height='100vh' backgroundImage='linear-gradient(rgb(11, 21, 64), rgb(35, 5, 38))'>
       {/* <FundOptionsWindow addFund={addFund} updateConnectedTypes={updateSelectedConnectionTypes} defaultConnectedTypes={selectedConnectionTypes.current} /> */}
       {/* <FundGraphGenerator graphElements={graphElements} /> */}
-      {/* <FundGraphGenerator graphElements={data} />; */}
-      <FundGraph graphElements={data} />
+      <FundGraphGenerator graphElements={data} />;{/* <FundGraph graphElements={data} /> */}
     </Flex>
   );
 }

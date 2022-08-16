@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from 'react';
 import * as d3 from 'd3';
 import { FundNodeInterface, GraphElements, GroupRootNodeInterface } from '../../App.interface';
-import { D3DragEvent } from 'd3';
+import { D3DragEvent, SimulationLinkDatum } from 'd3';
 
 type CardSVG = d3.Selection<d3.BaseType, FundNodeInterface, d3.BaseType, unknown>;
 
-type Simulation = d3.Simulation<FundNodeInterface, undefined>;
+type Simulation = d3.Simulation<FundNodeInterface, SimulationLinkDatum<FundNodeInterface>>;
 
 type DragEvent = D3DragEvent<SVGCircleElement, FundNodeInterface, FundNodeInterface>;
 
@@ -73,18 +73,18 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
           event.subject.fy = event.subject.y;
         }
 
-        function dragged(event: DragEvent) {
+        function dragged(event: D3DragEvent<SVGCircleElement, FundNodeInterface, FundNodeInterface>) {
           event.subject.fx = event.x;
           event.subject.fy = event.y;
         }
 
-        function dragEnded(event: DragEvent) {
+        function dragEnded(event: D3DragEvent<SVGCircleElement, FundNodeInterface, FundNodeInterface>) {
           if (!event.active) simulation.alphaTarget(0);
           event.subject.fx = null;
           event.subject.fy = null;
         }
 
-        return d3.drag().on('start', dragStarted).on('drag', dragged).on('end', dragEnded);
+        return d3.drag<SVGCircleElement, FundNodeInterface>().on('start', dragStarted).on('drag', dragged).on('end', dragEnded);
       };
 
       const simulation = d3
@@ -97,6 +97,7 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
             .distance(240)
         )
         .force('charge', d3.forceManyBody().strength(-240))
+        .force('collide', d3.forceCollide(150))
         .force('center', d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
 
       const svg = d3.select(svgRef.current);
@@ -141,7 +142,7 @@ export const FundGraphGenerator: React.FC<FundGraphGeneratorProps> = ({ graphEle
           .attr('x2', (d: any) => d.target.x)
           .attr('y2', (d: any) => d.target.y);
 
-        node.attr('x', (d: any) => d.x - 90).attr('y', (d: any) => d.y - 60);
+        node.attr('x', (d) => (d.x ? (d.x as number) - 90 : 0)).attr('y', (d) => (d.y ? (d.y as number) - 60 : 0));
       });
     };
     updateGraph();

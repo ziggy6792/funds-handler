@@ -49,7 +49,7 @@ export const FundGraph = ({ graphElements }: FundGraphInterface) => {
             .distance(240)
         )
         .force('charge', d3.forceManyBody().strength(-240))
-
+        .force('collide', d3.forceCollide(150))
         .force('center', d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2));
 
       // const simulation = d3
